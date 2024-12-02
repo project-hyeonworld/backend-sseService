@@ -1,6 +1,6 @@
-package io.sseservice.api.sse.infrastructure.jpa;
+package io.sseservice.api.waitingList.infrastructure.jpa;
 
-import io.sseservice.api.sse.infrastructure.entity.Sse;
+import io.sseservice.api.waitingList.infrastructure.entity.Sse;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 /**

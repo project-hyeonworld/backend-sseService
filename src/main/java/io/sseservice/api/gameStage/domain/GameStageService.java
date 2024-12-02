@@ -1,8 +1,8 @@
 package io.sseservice.api.gameStage.domain;
 
-import io.sseservice.api.sse.constant.EmitterType;
 import io.sseservice.api.gameStage.domain.dto.GameStageEmitter;
-import io.sseservice.api.sse.domain.strategy.EmitterManagerStrategy;
+import io.sseservice.common.emitter.EmitterManagerStrategy;
+import io.sseservice.common.constant.EmitterType;
 import io.sseservice.common.emitter.SseManager;
 import io.sseservice.common.SseTable;
 import lombok.RequiredArgsConstructor;

@@ -1,6 +1,6 @@
-package io.sseservice.api.sse.domain.dto;
+package io.sseservice.api.waitingList.domain.dto;
 
-import io.sseservice.api.sse.constant.EventType;
+import io.sseservice.common.constant.EventType;
 import io.sseservice.common.emitter.EmitterManager;
 import java.util.ArrayList;
 import java.util.List;

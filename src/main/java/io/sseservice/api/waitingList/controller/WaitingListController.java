@@ -1,8 +1,8 @@
-package io.sseservice.api.sse.controller;
+package io.sseservice.api.waitingList.controller;
 
-import io.sseservice.api.sse.controller.dto.res.WaitingListResponse;
-import io.sseservice.api.sse.domain.SseService;
-import io.sseservice.api.sse.domain.dto.WaitingListEmitter;
+import io.sseservice.api.waitingList.controller.dto.res.WaitingListResponse;
+import io.sseservice.api.waitingList.domain.WaitingListService;
+import io.sseservice.api.waitingList.domain.dto.WaitingListEmitter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -20,30 +20,31 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v2/sse")
-public class SseController {
+@RequestMapping("/api/v2/sse/{partyId}/waiting-list")
+public class WaitingListController {
 
-    private final SseService sseService;
+    private final WaitingListService waitingListService;
 
-    @GetMapping(value = "/{partyId}/waiting-list", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    @GetMapping(produces = MediaType.TEXT_EVENT_STREAM_VALUE)
     public ResponseEntity<WaitingListEmitter> getWaitingList(@PathVariable long partyId, @RequestParam long userId) {
-        return ResponseEntity.ok(sseService.retrieveWaitingListEmitter(partyId, userId));
+        return ResponseEntity.ok(waitingListService.retrieveWaitingListEmitter(partyId, userId));
     }
 
-    @GetMapping(value = "/{partyId}/waiting-list/init")
+    //TODO:Switch to Post mehtod
+    @GetMapping(value = "/init")
     public ResponseEntity<WaitingListResponse> initWaitingList(@PathVariable long partyId) {
-        return ResponseEntity.ok(WaitingListResponse.from(sseService.getWaitingList(partyId)));
+        return ResponseEntity.ok(WaitingListResponse.from(waitingListService.getWaitingList(partyId)));
     }
 
-    @PostMapping(value = "/{partyId}/waiting-list/{name}")
+    @PostMapping(value = "/{name}")
     public ResponseEntity<String> addNameOnWaitingList(@PathVariable long partyId,
             @PathVariable String name) {
-        return ResponseEntity.ok(sseService.addNameOnWaitingList(partyId, name));
+        return ResponseEntity.ok(waitingListService.addNameOnWaitingList(partyId, name));
     }
 
-    @DeleteMapping(value = "/{partyId}/waiting-list/{name}")
+    @DeleteMapping(value = "/{name}")
     public ResponseEntity<String> removeNameFromWaitingList(@PathVariable long partyId,
             @PathVariable String name) {
-        return ResponseEntity.ok(sseService.removeNameFromWaitingList(partyId, name));
+        return ResponseEntity.ok(waitingListService.removeNameFromWaitingList(partyId, name));
     }
 }

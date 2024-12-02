@@ -1,6 +1,6 @@
-package io.sseservice.api.sse.domain.dto;
+package io.sseservice.api.waitingList.domain.dto;
 
-import io.sseservice.api.sse.infrastructure.entity.Sse;
+import io.sseservice.api.waitingList.infrastructure.entity.Sse;
 
 /**
  * @author : hyeonwoody@gmail.com

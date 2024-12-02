@@ -1,4 +1,4 @@
-package io.sseservice.api.sse.controller.dto.res;
+package io.sseservice.api.waitingList.controller.dto.res;
 
 import java.util.List;
 

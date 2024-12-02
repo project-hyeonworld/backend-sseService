@@ -1,4 +1,4 @@
-package io.sseservice.api.sse.domain.dto;
+package io.sseservice.api.waitingList.domain.dto;
 
 import io.sseservice.common.emitter.CustomEmitter;
 

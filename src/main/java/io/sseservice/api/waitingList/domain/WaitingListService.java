@@ -1,11 +1,11 @@
-package io.sseservice.api.sse.domain;
+package io.sseservice.api.waitingList.domain;
 
-import io.sseservice.api.sse.constant.EmitterType;
 import io.sseservice.api.gameStage.domain.dto.GameStageEmitter;
-import io.sseservice.api.sse.domain.dto.WaitingListEmitter;
-import io.sseservice.api.sse.domain.strategy.EmitterManagerStrategy;
-import io.sseservice.api.sse.infrastructure.SseRepository;
+import io.sseservice.api.waitingList.domain.dto.WaitingListEmitter;
+import io.sseservice.common.emitter.EmitterManagerStrategy;
+import io.sseservice.api.waitingList.infrastructure.SseRepository;
 import io.sseservice.common.SseTable;
+import io.sseservice.common.constant.EmitterType;
 import io.sseservice.common.emitter.SseManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class SseService {
+public class WaitingListService {
 
     private final SseRepository sseRepository;
     private final SseTable sseTable;

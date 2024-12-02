@@ -1,6 +1,6 @@
 package io.sseservice.api.gameStage.domain.dto;
 
-import io.sseservice.api.sse.constant.EventType;
+import io.sseservice.common.constant.EventType;
 import io.sseservice.common.emitter.CustomEmitter;
 import java.io.IOException;
 /**

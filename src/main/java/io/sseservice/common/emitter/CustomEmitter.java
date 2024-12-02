@@ -1,6 +1,6 @@
 package io.sseservice.common.emitter;
 
-import io.sseservice.api.sse.constant.EventType;
+import io.sseservice.common.constant.EventType;
 import java.io.IOException;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 

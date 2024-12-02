@@ -1,7 +1,7 @@
-package io.sseservice.api.sse.infrastructure;
+package io.sseservice.api.waitingList.infrastructure;
 
-import io.sseservice.api.sse.infrastructure.entity.Sse;
-import io.sseservice.api.sse.infrastructure.jpa.SseJpaRepository;
+import io.sseservice.api.waitingList.infrastructure.entity.Sse;
+import io.sseservice.api.waitingList.infrastructure.jpa.SseJpaRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Repository;

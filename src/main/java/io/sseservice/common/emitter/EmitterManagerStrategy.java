@@ -1,9 +1,8 @@
-package io.sseservice.api.sse.domain.strategy;
+package io.sseservice.common.emitter;
 
-import io.sseservice.api.sse.constant.EmitterType;
 import io.sseservice.api.gameStage.domain.dto.GameStageEmitterManager;
-import io.sseservice.api.sse.domain.dto.WaitingListEmitterManager;
-import io.sseservice.common.emitter.EmitterManager;
+import io.sseservice.api.waitingList.domain.dto.WaitingListEmitterManager;
+import io.sseservice.common.constant.EmitterType;
 import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.function.Supplier;

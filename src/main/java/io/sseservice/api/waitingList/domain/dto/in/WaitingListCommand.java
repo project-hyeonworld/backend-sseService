@@ -1,10 +1,10 @@
-package io.sseservice.api.sse.domain.dto.in;
+package io.sseservice.api.waitingList.domain.dto.in;
 
 /**
  * @author : hyeonwoody@gmail.com
  * @since : 24. 11. 17.
  */
-public record SseWaitingListCommand (
+public record WaitingListCommand(
         long partyId
 ){
 

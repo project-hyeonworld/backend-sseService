@@ -1,4 +1,4 @@
-package io.sseservice.api.sse.constant;
+package io.sseservice.common.constant;
 
 /**
  * @author : hyeonwoody@gmail.com

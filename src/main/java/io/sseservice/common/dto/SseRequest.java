@@ -1,4 +1,4 @@
-package io.sseservice.api.sse.controller.dto.req;
+package io.sseservice.common.dto;
 
 /**
  * @author : hyeonwoody@gmail.com

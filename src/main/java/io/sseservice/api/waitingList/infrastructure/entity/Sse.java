@@ -1,4 +1,4 @@
-package io.sseservice.api.sse.infrastructure.entity;
+package io.sseservice.api.waitingList.infrastructure.entity;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
