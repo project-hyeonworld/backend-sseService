@@ -20,7 +20,7 @@ public class WaitingListEmitterManager implements EmitterManager<WaitingListEmit
         this.waitingList = new ArrayList<>();
     }
 
-    public static EmitterManager from() {
+    public static WaitingListEmitterManager from() {
         return new WaitingListEmitterManager();
     }
 
@@ -65,11 +65,11 @@ public class WaitingListEmitterManager implements EmitterManager<WaitingListEmit
     }
 
     public void handleGameIn(String userName) {
-        removeNameFromWaitingList(userName);
+
     }
 
     public void handleLogIn(String name) {
-        addNameOnWaitingList(name);
+
     }
 
     public String addNameOnWaitingList(String name) {

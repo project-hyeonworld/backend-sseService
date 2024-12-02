@@ -4,7 +4,7 @@ import io.sseservice.api.gameStage.domain.dto.GameStageEmitter;
 import io.sseservice.common.emitter.EmitterManagerStrategy;
 import io.sseservice.common.constant.EmitterType;
 import io.sseservice.common.emitter.SseManager;
-import io.sseservice.common.SseTable;
+import io.sseservice.common.EmitterManagerCache;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -16,22 +16,32 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class GameStageService {
 
-    private final SseTable sseTable;
+    private final EmitterManagerCache emitterManagerCache;
 
     private final EmitterManagerStrategy emitterManagerStrategy;
 
+    //TODO: handle LogOutEvent
+
+    public GameStageEmitter getGameStageEmitter(long partyId, long userId) {
+        SseManager sseManager = emitterManagerCache.findByPartyId(partyId)
+                .orElseGet(()-> createEmitterManager(partyId));
+        return (GameStageEmitter) sseManager.getEmitter(EmitterType.CURRENT_GAME_STAGE, userId);
+    }
+
+
     public GameStageEmitter retreiveEmitter(long partyId, long userId) {
-        SseManager sseManager = sseTable.findByPartyId(partyId)
+        SseManager sseManager = emitterManagerCache.findByPartyId(partyId)
                 .orElseGet(()->createSseManager(partyId));
         return (GameStageEmitter) sseManager.retrieveEmitter(EmitterType.CURRENT_GAME_STAGE, userId);
     }
 
     private SseManager createSseManager(long partyId) {
-        return sseTable.save(partyId, SseManager.from(emitterManagerStrategy));
+        return emitterManagerCache.save(partyId, SseManager.from(emitterManagerStrategy));
     }
 
+
     public byte sendGameStage(long partyId, byte gameStage) {
-        SseManager sseManager = sseTable.findByPartyId(partyId)
+        SseManager sseManager = emitterManagerCache.findByPartyId(partyId)
                 .orElseGet(()->createSseManager(partyId));
         sseManager.handleChangeGameStage(gameStage);
         return gameStage;
