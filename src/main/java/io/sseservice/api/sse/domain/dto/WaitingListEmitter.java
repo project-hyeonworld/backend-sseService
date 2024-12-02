@@ -1,6 +1,6 @@
 package io.sseservice.api.sse.domain.dto;
 
-import io.sseservice.api.sse.interfaces.CustomEmitter;
+import io.sseservice.common.emitter.CustomEmitter;
 
 /**
  * @author : hyeonwoody@gmail.com

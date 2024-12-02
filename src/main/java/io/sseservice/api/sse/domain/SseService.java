@@ -1,12 +1,12 @@
 package io.sseservice.api.sse.domain;
 
 import io.sseservice.api.sse.constant.EmitterType;
-import io.sseservice.api.sse.domain.dto.CurrentGameStageEmitter;
+import io.sseservice.api.gameStage.domain.dto.GameStageEmitter;
 import io.sseservice.api.sse.domain.dto.WaitingListEmitter;
 import io.sseservice.api.sse.domain.strategy.EmitterManagerStrategy;
 import io.sseservice.api.sse.infrastructure.SseRepository;
 import io.sseservice.common.SseTable;
-import io.sseservice.api.sse.interfaces.SseManager;
+import io.sseservice.common.emitter.SseManager;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -46,23 +46,10 @@ public class SseService {
         sseManager.remove(EmitterType.ALL, userId);
     }
 
-    public CurrentGameStageEmitter getGameStageEmitter(long partyId, long userId) {
+    public GameStageEmitter getGameStageEmitter(long partyId, long userId) {
         SseManager sseManager = sseTable.findByPartyId(partyId)
                 .orElseGet(()->createSseManager(partyId));
-        return (CurrentGameStageEmitter) sseManager.getEmitter(EmitterType.CURRENT_GAME_STAGE, userId);
-    }
-
-    public CurrentGameStageEmitter retreiveGameStageEmitter(long partyId, long userId) {
-        SseManager sseManager = sseTable.findByPartyId(partyId)
-                .orElseGet(()->createSseManager(partyId));
-        return (CurrentGameStageEmitter) sseManager.retrieveEmitter(EmitterType.CURRENT_GAME_STAGE, userId);
-    }
-
-    public byte sendCurrentGameStage(long partyId, byte gameStage) {
-        SseManager sseManager = sseTable.findByPartyId(partyId)
-                .orElseGet(()->createSseManager(partyId));
-        sseManager.handleChangeGameStage(gameStage);
-        return gameStage;
+        return (GameStageEmitter) sseManager.getEmitter(EmitterType.CURRENT_GAME_STAGE, userId);
     }
 
     public List<String> getWaitingList(long partyId) {
@@ -98,8 +85,6 @@ public class SseService {
     private SseManager createSseManager(long partyId) {
         return sseTable.save(partyId, SseManager.from(emitterManagerStrategy));
     }
-
-
 }
 
 

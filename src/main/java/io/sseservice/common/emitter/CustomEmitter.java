@@ -1,4 +1,4 @@
-package io.sseservice.api.sse.interfaces;
+package io.sseservice.common.emitter;
 
 import io.sseservice.api.sse.constant.EventType;
 import java.io.IOException;

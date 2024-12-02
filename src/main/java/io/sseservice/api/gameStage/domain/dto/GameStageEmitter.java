@@ -1,19 +1,19 @@
-package io.sseservice.api.sse.domain.dto;
+package io.sseservice.api.gameStage.domain.dto;
 
 import io.sseservice.api.sse.constant.EventType;
-import io.sseservice.api.sse.interfaces.CustomEmitter;
+import io.sseservice.common.emitter.CustomEmitter;
 import java.io.IOException;
 /**
  * @author : hyeonwoody@gmail.com
  * @since : 24. 11. 18.
  */
-public class CurrentGameStageEmitter extends CustomEmitter {
-    private CurrentGameStageEmitter() {
+public class GameStageEmitter extends CustomEmitter {
+    private GameStageEmitter() {
         super(60 * 60 * 1000L);
     }
 
-    public static CurrentGameStageEmitter from() {
-        CurrentGameStageEmitter emitter = new CurrentGameStageEmitter();
+    public static GameStageEmitter from() {
+        GameStageEmitter emitter = new GameStageEmitter();
 
         emitter.onCompletion(emitter::setCompleted);
         emitter.onTimeout(emitter::setCompleted);

@@ -1,7 +1,7 @@
-package io.sseservice.api.sse.interfaces;
+package io.sseservice.common.emitter;
 
 import io.sseservice.api.sse.constant.EmitterType;
-import io.sseservice.api.sse.domain.dto.CurrentGameStageEmitterManager;
+import io.sseservice.api.gameStage.domain.dto.GameStageEmitterManager;
 import io.sseservice.api.sse.domain.dto.WaitingListEmitterManager;
 import io.sseservice.api.sse.domain.strategy.EmitterManagerStrategy;
 import java.util.List;
@@ -35,7 +35,7 @@ public class SseManager {
     }
 
     public void handleChangeGameStage(byte gameStage) {
-        CurrentGameStageEmitterManager emitterManager = (CurrentGameStageEmitterManager) getEmitterManager(EmitterType.CURRENT_GAME_STAGE);
+        GameStageEmitterManager emitterManager = (GameStageEmitterManager) getEmitterManager(EmitterType.CURRENT_GAME_STAGE);
         emitterManager.sendAll(gameStage);
         //emitterManager.refill();
     }

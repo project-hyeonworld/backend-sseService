@@ -1,7 +1,7 @@
 package io.sseservice.api.sse.domain.dto;
 
 import io.sseservice.api.sse.constant.EventType;
-import io.sseservice.api.sse.interfaces.EmitterManager;
+import io.sseservice.common.emitter.EmitterManager;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;

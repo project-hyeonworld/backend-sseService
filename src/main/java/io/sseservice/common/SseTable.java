@@ -1,6 +1,6 @@
 package io.sseservice.common;
 
-import io.sseservice.api.sse.interfaces.SseManager;
+import io.sseservice.common.emitter.SseManager;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import org.springframework.stereotype.Component;

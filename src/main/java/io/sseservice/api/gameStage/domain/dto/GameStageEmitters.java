@@ -1,6 +1,6 @@
-package io.sseservice.api.sse.domain.dto;
+package io.sseservice.api.gameStage.domain.dto;
 
-import io.sseservice.api.sse.interfaces.CustomEmitters;
+import io.sseservice.common.emitter.CustomEmitters;
 import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutorService;
@@ -10,28 +10,28 @@ import java.util.concurrent.Executors;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 11. 19.
  */
-public class CurrentGameStageEmitters extends CustomEmitters<CurrentGameStageEmitter> {
+public class GameStageEmitters extends CustomEmitters<GameStageEmitter> {
 
-    private CurrentGameStageEmitters() {
+    private GameStageEmitters() {
         super();
     }
 
     @Override
-    protected CurrentGameStageEmitter createEmitter() {
-        return CurrentGameStageEmitter.from();
+    protected GameStageEmitter createEmitter() {
+        return GameStageEmitter.from();
     }
 
-    private CurrentGameStageEmitters(long userId) {
+    private GameStageEmitters(long userId) {
         super();
-        emitters.put(userId, CurrentGameStageEmitter.from());
+        emitters.put(userId, GameStageEmitter.from());
     }
 
-    public CurrentGameStageEmitters from(long userId) {
-        return new CurrentGameStageEmitters(userId);
+    public GameStageEmitters from(long userId) {
+        return new GameStageEmitters(userId);
     }
 
-    public static CurrentGameStageEmitters from() {
-        return new CurrentGameStageEmitters();
+    public static GameStageEmitters from() {
+        return new GameStageEmitters();
     }
 
     public void sendAll(byte gameStage) {
@@ -56,7 +56,7 @@ public class CurrentGameStageEmitters extends CustomEmitters<CurrentGameStageEmi
                 .toList();
     }
 
-    private Callable<Void> getVoidCallable(CurrentGameStageEmitter emitter, byte gameStage) {
+    private Callable<Void> getVoidCallable(GameStageEmitter emitter, byte gameStage) {
         return () -> {
             emitter.send(gameStage);
             return null;
@@ -87,7 +87,7 @@ public class CurrentGameStageEmitters extends CustomEmitters<CurrentGameStageEmi
 
     private Callable<Void> getVoidCallable(Long key) {
         return () -> {
-            emitters.put(key, CurrentGameStageEmitter.from());
+            emitters.put(key, GameStageEmitter.from());
             return null;
         };
     }

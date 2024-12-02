@@ -1,4 +1,4 @@
-package io.sseservice.api.sse.interfaces;
+package io.sseservice.common.emitter;
 
 import java.util.List;
 

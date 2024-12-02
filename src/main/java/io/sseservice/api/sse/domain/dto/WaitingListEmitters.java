@@ -1,8 +1,8 @@
 package io.sseservice.api.sse.domain.dto;
 
 import io.sseservice.api.sse.constant.EventType;
-import io.sseservice.api.sse.interfaces.CustomEmitter;
-import io.sseservice.api.sse.interfaces.CustomEmitters;
+import io.sseservice.common.emitter.CustomEmitter;
+import io.sseservice.common.emitter.CustomEmitters;
 import java.io.IOException;
 import java.util.List;
 import java.util.concurrent.Callable;
