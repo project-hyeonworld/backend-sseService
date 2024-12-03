@@ -35,6 +35,9 @@ public class GameStageEmitters extends CustomEmitters<GameStageEmitter> {
     }
 
     public void sendAll(byte gameStage) {
+        if (emitters.isEmpty()) {
+            return;
+        }
         try {
             ExecutorService executorService = Executors.newFixedThreadPool(emitters.size());
             List<Callable<Void>> tasks = getSendTasks(gameStage);
