@@ -22,7 +22,7 @@ public class PartyGameStagePatchKafkaConsumerStrategy extends DefaultKafkaConsum
         timeout = Duration.ofMillis(1000);
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerUrl);
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
-        props.put(ConsumerConfig.MAX_POLL_INTERVAL_MS_CONFIG, 10);
+        props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
         props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, PartyGameStagePatchKafkaEventDeserializer.class.getName());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
