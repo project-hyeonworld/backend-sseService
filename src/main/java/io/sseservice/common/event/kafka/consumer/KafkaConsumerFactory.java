@@ -4,9 +4,9 @@ import io.sseservice.common.event.CustomEvent;
 
 /**
  * @author : hyeonwoody@gmail.com
- * @since : 24. 12. 1.
+ * @since : 24. 12. 4.
  */
-public interface KafkaConsumerManager<E extends CustomEvent> {
+public interface KafkaConsumerFactory <E extends CustomEvent>{
 
     KafkaConsumerStrategy<? extends E, ?, ?> getConsumer(Class<? extends E> eventClass);
 }

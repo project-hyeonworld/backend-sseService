@@ -1,7 +1,7 @@
-package io.sseservice.api.gameStage.event.kafka.consumer;
+package io.sseservice.api.gameStage.event.kafka.consumer.patch.gameStage;
 
 import io.sseservice.common.annotation.Strategy;
-import io.sseservice.common.event.kafka.consumer.DefaultKafkaConsumerStrategy;
+import io.sseservice.common.event.kafka.consumer.GenericKafkaConsumerStrategy;
 import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
@@ -17,9 +17,10 @@ import org.springframework.beans.factory.annotation.Value;
  * @since : 24. 12. 3.
  */
 @Strategy(4)
-public class PartyGameStagePatchKafkaConsumerStrategy extends DefaultKafkaConsumerStrategy<PartyGameStagePatchKafkaEvent, Long, Integer> {
+public class PatchKafkaConsumerStrategy extends
+        GenericKafkaConsumerStrategy<PatchKafkaEvent, Long, Integer> {
 
-    public PartyGameStagePatchKafkaConsumerStrategy(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party-dashboard.game-stage.change}") String topic, @Value("${spring.application.name}") String groupId) {
+    public PatchKafkaConsumerStrategy(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party-dashboard.game-stage.change}") String topic, @Value("${spring.application.name}") String groupId) {
         Properties props = new Properties();
         timeout = Duration.ofMillis(1000);
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerUrl);
@@ -33,13 +34,13 @@ public class PartyGameStagePatchKafkaConsumerStrategy extends DefaultKafkaConsum
     }
 
     @Override
-    public Class<PartyGameStagePatchKafkaEvent> getEventClass() {
-        return PartyGameStagePatchKafkaEvent.class;
+    public Class<PatchKafkaEvent> getEventClass() {
+        return PatchKafkaEvent.class;
     }
 
 
     @Override
-    protected PartyGameStagePatchKafkaEvent convertToEvent(ConsumerRecord<Long, Integer> record) {
-        return PartyGameStagePatchKafkaEvent.from(record.key(), record.value().byteValue());
+    protected PatchKafkaEvent convertToEvent(ConsumerRecord<Long, Integer> record) {
+        return PatchKafkaEvent.from(record.key(), record.value().byteValue());
     }
 }

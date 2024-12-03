@@ -1,7 +1,9 @@
 package io.sseservice.api.gameStage.event.kafka.consumer;
 
 import io.sseservice.api.gameStage.event.GameStageEventPublisher;
-import io.sseservice.common.event.kafka.consumer.DefaultKafkaConsumerStrategy;
+import io.sseservice.api.gameStage.event.kafka.consumer.patch.gameStage.PatchKafkaConsumerManager;
+import io.sseservice.api.gameStage.event.kafka.consumer.patch.gameStage.PatchKafkaEvent;
+import io.sseservice.common.event.kafka.consumer.GenericKafkaConsumerStrategy;
 import io.sseservice.common.event.kafka.consumer.KafkaReceiver;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -12,23 +14,23 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class PartyGameStagePatchKafkaReceiver implements KafkaReceiver<PartyGameStagePatchKafkaEvent> {
+public class GameStageKafkaReceiver implements KafkaReceiver<PatchKafkaEvent> {
 
-    private final PartyKafkaConsumerManager partyKafkaConsumerManager;
+    private final PatchKafkaConsumerManager patchKafkaConsumerManager;
     private final GameStageEventPublisher eventPublisher;
 
 
     @Override
     public void execute() {
-        DefaultKafkaConsumerStrategy consumer = partyKafkaConsumerManager.getConsumer(
-                PartyGameStagePatchKafkaEvent.class);
+        GenericKafkaConsumerStrategy consumer = patchKafkaConsumerManager.getConsumer(
+                PatchKafkaEvent.class);
         while (true) {
             handleEvents(consumer.receive());
         }
     }
 
     @Override
-    public void handleEvent(PartyGameStagePatchKafkaEvent event) {
+    public void handleEvent(PatchKafkaEvent event) {
         eventPublisher.execute(event);
     }
 }
