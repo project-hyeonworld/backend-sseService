@@ -7,22 +7,21 @@ import java.util.List;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 11. 18.
  */
-public class GameStageEmitterManager implements EmitterManager<GameStageEmitter, GameStageEmitters> {
+public class GameStageEmitterManager implements EmitterManager<GameStageEmitter> {
 
-    private GameStageEmitters gameStageEmitters;
+    private final GameStageEmitters gameStageEmitters;
 
     private GameStageEmitterManager() {
         this.gameStageEmitters = GameStageEmitters.from();
     }
 
-    public static EmitterManager from() {
+    public static GameStageEmitterManager from() {
         return new GameStageEmitterManager();
     }
 
     @Override
     public GameStageEmitter create(long userId) {
-        GameStageEmitter emitter = GameStageEmitter.from();
-        return emitter;
+        return GameStageEmitter.from();
     }
 
     @Override
@@ -45,32 +44,8 @@ public class GameStageEmitterManager implements EmitterManager<GameStageEmitter,
         return gameStageEmitters.retrieve(userId);
     }
 
-    @Override
-    public List<GameStageEmitter> get() {
-        return gameStageEmitters.toList();
-    }
-
-    @Override
-    public void set(List<Long> userIds, List<GameStageEmitter> emitters) {
-        gameStageEmitters.set(userIds, emitters);
-    }
-
-    @Override
-    public void set(List<GameStageEmitter> emitters) {
-        gameStageEmitters.set(emitters);
-    }
-
     public void sendAll(byte gameStage) {
         gameStageEmitters.sendAll(gameStage);
     }
-
-    public void refill() {
-        gameStageEmitters.refill();
-    }
-
-    public void handleGameIn(long userId) {
-        gameStageEmitters.add(userId);
-    }
-
 
 }

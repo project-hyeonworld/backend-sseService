@@ -1,7 +1,5 @@
 package io.sseservice.common.emitter;
 
-import io.sseservice.common.constant.EventType;
-import java.io.IOException;
 import org.springframework.web.servlet.mvc.method.annotation.SseEmitter;
 
 /**
@@ -24,17 +22,5 @@ public abstract class CustomEmitter extends SseEmitter {
 
     protected void setCompleted() {
         completed = true;
-    }
-
-    public void send() {
-        try {
-            send(CustomEmitter.event()
-                    .name(EventType.CONNECTION_CHECK.getEventName())
-                    .data(null));
-            complete();
-        } catch (IOException e) {
-            completeWithError(e);
-        }
-
     }
 }

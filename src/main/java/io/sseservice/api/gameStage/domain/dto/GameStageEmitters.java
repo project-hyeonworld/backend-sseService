@@ -16,11 +16,6 @@ public class GameStageEmitters extends CustomEmitters<GameStageEmitter> {
         super();
     }
 
-    @Override
-    protected GameStageEmitter createEmitter() {
-        return GameStageEmitter.from();
-    }
-
     private GameStageEmitters(long userId) {
         super();
         emitters.put(userId, GameStageEmitter.from());
@@ -32,6 +27,11 @@ public class GameStageEmitters extends CustomEmitters<GameStageEmitter> {
 
     public static GameStageEmitters from() {
         return new GameStageEmitters();
+    }
+
+    @Override
+    protected GameStageEmitter createEmitter() {
+        return GameStageEmitter.from();
     }
 
     public void sendAll(byte gameStage) {

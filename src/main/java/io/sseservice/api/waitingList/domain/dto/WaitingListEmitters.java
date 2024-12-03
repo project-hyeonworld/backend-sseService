@@ -19,21 +19,19 @@ public class WaitingListEmitters extends CustomEmitters<WaitingListEmitter> {
         super();
     }
 
+    public static WaitingListEmitters from() {
+        return new WaitingListEmitters();
+    }
+
     @Override
     protected WaitingListEmitter createEmitter() {
         return WaitingListEmitter.from();
     }
 
-    public static WaitingListEmitters from() {
-        return new WaitingListEmitters();
-    }
-
-
-
-    public void send(EventType eventType, String name) {
+    public void sendAll(EventType eventType, String name) {
         if (!emitters.isEmpty()) {
             ExecutorService executorService = Executors.newFixedThreadPool(emitters.size());
-            List<Callable<Void>> tasks = getThreadTasks(eventType, name);
+            List<Callable<Void>> tasks = getSendTasks(eventType, name);
             try {
                 executorService.invokeAll(tasks);
             } catch (InterruptedException e) {
@@ -44,7 +42,7 @@ public class WaitingListEmitters extends CustomEmitters<WaitingListEmitter> {
         }
     }
 
-    private List<Callable<Void>> getThreadTasks(EventType eventType, String name) {
+    private List<Callable<Void>> getSendTasks(EventType eventType, String name) {
         return emitters.values().stream()
                 .map(emiiter -> getVoidCallable(emiiter, eventType, name))
                 .toList();
@@ -62,10 +60,5 @@ public class WaitingListEmitters extends CustomEmitters<WaitingListEmitter> {
             return null;
         };
     }
-
-    public void add(long userId) {
-        emitters.put(userId, createEmitter());
-    }
-
 
 }

@@ -10,19 +10,18 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public abstract class CustomEmitters<T extends CustomEmitter> {
 
-    protected final ConcurrentHashMap<Long ,T> emitters;
+    protected final ConcurrentHashMap<Long, T> emitters;
 
     protected CustomEmitters() {
         this.emitters = new ConcurrentHashMap<>();
     }
 
     public void remove(long userId) {
-        emitters.remove(userId);
-    }
-
-    public void remove(T emitter) {
-        emitters.entrySet()
-                .removeIf(entry-> entry.getValue().equals(emitter));
+        T emitter = emitters.get(userId);
+        if (emitter != null) {
+            emitter.complete();
+            emitters.remove(userId);
+        }
     }
 
     public void add(long userId) {
@@ -34,10 +33,6 @@ public abstract class CustomEmitters<T extends CustomEmitter> {
     }
 
     protected abstract T createEmitter();
-
-    public T getFirst() {
-        return emitters.values().stream().findFirst().orElse(null);
-    }
 
     public List<T> toList() {
         return emitters.values().stream().toList();
@@ -65,11 +60,10 @@ public abstract class CustomEmitters<T extends CustomEmitter> {
         T emitter = emitters.get(userId);
         if (emitter == null || emitter.isCompleted()) {
             emitter = createEmitter();
-            emitters.put(userId, emitter);
+            add(userId, emitter);
         }
         return emitter;
     }
-
 
 
 }

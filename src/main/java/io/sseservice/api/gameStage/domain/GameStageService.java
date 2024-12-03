@@ -1,10 +1,9 @@
 package io.sseservice.api.gameStage.domain;
 
 import io.sseservice.api.gameStage.domain.dto.GameStageEmitter;
-import io.sseservice.common.emitter.EmitterManagerStrategy;
-import io.sseservice.common.constant.EmitterType;
-import io.sseservice.common.emitter.SseManager;
-import io.sseservice.common.EmitterManagerCache;
+import io.sseservice.api.gameStage.domain.dto.GameStageEmitterManager;
+import io.sseservice.api.gameStage.infrastructure.GameStageEmitterManagerCache;
+import io.sseservice.common.domain.sseService.SseService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -14,38 +13,32 @@ import org.springframework.stereotype.Service;
  */
 @Service
 @RequiredArgsConstructor
-public class GameStageService {
+public class GameStageService implements SseService<GameStageEmitterManager> {
 
-    private final EmitterManagerCache emitterManagerCache;
-
-    private final EmitterManagerStrategy emitterManagerStrategy;
-
+    private final GameStageEmitterManagerCache emitterManagerCache;
     //TODO: handle LogOutEvent
 
-    public GameStageEmitter getGameStageEmitter(long partyId, long userId) {
-        SseManager sseManager = emitterManagerCache.findByPartyId(partyId)
+    public GameStageEmitter getEmitter(long partyId, long userId) {
+        GameStageEmitterManager manager = emitterManagerCache.findByPartyId(partyId)
                 .orElseGet(()-> createEmitterManager(partyId));
-        return (GameStageEmitter) sseManager.getEmitter(EmitterType.CURRENT_GAME_STAGE, userId);
+        return manager.get(userId);
     }
-
 
     public GameStageEmitter retreiveEmitter(long partyId, long userId) {
-        SseManager sseManager = emitterManagerCache.findByPartyId(partyId)
-                .orElseGet(()->createSseManager(partyId));
-        return (GameStageEmitter) sseManager.retrieveEmitter(EmitterType.CURRENT_GAME_STAGE, userId);
+        GameStageEmitterManager manager = emitterManagerCache.findByPartyId(partyId)
+                .orElseGet(()-> createEmitterManager(partyId));
+        return manager.retrieve(userId);
     }
-
-    private SseManager createSseManager(long partyId) {
-        return emitterManagerCache.save(partyId, SseManager.from(emitterManagerStrategy));
-    }
-
 
     public byte sendGameStage(long partyId, byte gameStage) {
-        SseManager sseManager = emitterManagerCache.findByPartyId(partyId)
-                .orElseGet(()->createSseManager(partyId));
-        sseManager.handleChangeGameStage(gameStage);
+        GameStageEmitterManager manager = emitterManagerCache.findByPartyId(partyId)
+                .orElseGet(()-> createEmitterManager(partyId));
+        manager.sendAll(gameStage);
         return gameStage;
     }
 
-
+    @Override
+    public GameStageEmitterManager createEmitterManager(long partyId) {
+        return emitterManagerCache.save(partyId, GameStageEmitterManager.from());
+    }
 }

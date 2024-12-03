@@ -6,7 +6,7 @@ import java.util.List;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 11. 14.
  */
-public interface EmitterManager<T extends CustomEmitter, TCollection extends CustomEmitters<T>> {
+public interface EmitterManager<T extends CustomEmitter> {
 
     T create(long userId);
 
@@ -17,13 +17,5 @@ public interface EmitterManager<T extends CustomEmitter, TCollection extends Cus
     T get(long userId);
 
     T retrieve(long userId);
-
-    List<T> get();
-
-    void set(List<T> emitters);
-
-    void set(List<Long> userIds, List<T> emitters);
-
-
 
 }
