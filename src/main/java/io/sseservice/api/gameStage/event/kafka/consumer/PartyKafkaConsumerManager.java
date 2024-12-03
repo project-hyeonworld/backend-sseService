@@ -1,10 +1,8 @@
 package io.sseservice.api.gameStage.event.kafka.consumer;
 
-import io.sseservice.common.event.CustomEvent;
-import io.sseservice.common.event.kafka.consumer.CustomKafkaConsumerFactory;
-import io.sseservice.common.event.kafka.consumer.DefaultKafkaConsumerStrategy;
+import io.sseservice.common.event.kafka.consumer.GenericKafkaConsumerManager;
+import io.sseservice.common.event.kafka.consumer.GenericKafkaConsumerStrategy;
 import io.sseservice.common.event.kafka.consumer.KafkaConsumerManager;
-import io.sseservice.common.event.kafka.consumer.KafkaConsumerStrategy;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
@@ -14,12 +12,12 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @RequiredArgsConstructor
-public class PartyKafkaConsumerManager implements KafkaConsumerManager<PartyGameStagePatchKafkaEvent> {
+public class PartyKafkaConsumerManager extends GenericKafkaConsumerManager<PartyGameStagePatchKafkaEvent> {
 
-    private final CustomKafkaConsumerFactory customKafkaConsumerFactory;
+    private final PartyKafkaConsumerFactory partyKafkaConsumerFactory;
 
     @Override
-    public DefaultKafkaConsumerStrategy getConsumer(Class<PartyGameStagePatchKafkaEvent> eventClass) {
-        return customKafkaConsumerFactory.getConsumer(eventClass);
+    public GenericKafkaConsumerStrategy<PartyGameStagePatchKafkaEvent, ?, ?> getConsumer(Class<PartyGameStagePatchKafkaEvent> eventClass) {
+        return partyKafkaConsumerFactory.getConsumer(eventClass);
     }
 }
