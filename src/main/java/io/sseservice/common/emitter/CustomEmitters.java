@@ -16,12 +16,23 @@ public abstract class CustomEmitters<T extends CustomEmitter> {
         this.emitters = new ConcurrentHashMap<>();
     }
 
-    public void remove(long userId) {
+    protected abstract T createEmitter();
+
+    public List<T> toList() {
+        return emitters.values().stream().toList();
+    }
+
+    public T get(long userId) {
+        return emitters.get(userId);
+    }
+
+    public T retrieve(long userId) {
         T emitter = emitters.get(userId);
-        if (emitter != null) {
-            emitter.complete();
-            emitters.remove(userId);
+        if (emitter == null || emitter.isCompleted()) {
+            emitter = createEmitter();
+            add(userId, emitter);
         }
+        return emitter;
     }
 
     public void add(long userId) {
@@ -30,12 +41,6 @@ public abstract class CustomEmitters<T extends CustomEmitter> {
 
     public void add(long userId, T emitter) {
         emitters.put(userId, emitter);
-    }
-
-    protected abstract T createEmitter();
-
-    public List<T> toList() {
-        return emitters.values().stream().toList();
     }
 
     public void set(List<T> incomingEmitters) {
@@ -52,18 +57,12 @@ public abstract class CustomEmitters<T extends CustomEmitter> {
         }
     }
 
-    public T get(long userId) {
-        return emitters.get(userId);
-    }
-
-    public T retrieve(long userId) {
+    public void remove(long userId) {
         T emitter = emitters.get(userId);
-        if (emitter == null || emitter.isCompleted()) {
-            emitter = createEmitter();
-            add(userId, emitter);
+        if (emitter != null) {
+            emitter.complete();
+            emitters.remove(userId);
         }
-        return emitter;
     }
-
 
 }

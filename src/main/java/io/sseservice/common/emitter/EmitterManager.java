@@ -10,12 +10,11 @@ public interface EmitterManager<T extends CustomEmitter> {
 
     T create(long userId);
 
-    void add(long userId);
-
-    void remove(long userId);
-
     T get(long userId);
 
     T retrieve(long userId);
 
+    void add(long userId);
+
+    void remove(long userId);
 }

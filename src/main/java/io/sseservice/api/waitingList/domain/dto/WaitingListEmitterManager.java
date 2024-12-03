@@ -30,16 +30,6 @@ public class WaitingListEmitterManager implements EmitterManager<WaitingListEmit
     }
 
     @Override
-    public void add(long userId) {
-        waitingListEmitters.add(userId);
-    }
-
-    @Override
-    public void remove(long userId) {
-        waitingListEmitters.remove(userId);
-    }
-
-    @Override
     public WaitingListEmitter get(long userId) {
         return waitingListEmitters.get(userId);
     }
@@ -47,6 +37,11 @@ public class WaitingListEmitterManager implements EmitterManager<WaitingListEmit
     @Override
     public WaitingListEmitter retrieve(long userId) {
         return waitingListEmitters.retrieve(userId);
+    }
+
+    @Override
+    public void add(long userId) {
+        waitingListEmitters.add(userId);
     }
 
     public String addNameOnWaitingList(String name) {
@@ -59,6 +54,11 @@ public class WaitingListEmitterManager implements EmitterManager<WaitingListEmit
         waitingList.remove(name);
         waitingListEmitters.sendAll(EventType.REMOVE_NAME_FROM_WAITING_LIST, name);
         return name;
+    }
+
+    @Override
+    public void remove(long userId) {
+        waitingListEmitters.remove(userId);
     }
 
 }

@@ -25,16 +25,6 @@ public class GameStageEmitterManager implements EmitterManager<GameStageEmitter>
     }
 
     @Override
-    public void add(long userId) {
-        gameStageEmitters.add(userId);
-    }
-
-    @Override
-    public void remove(long userId) {
-        gameStageEmitters.remove(userId);
-    }
-
-    @Override
     public GameStageEmitter get(long userId) {
         return gameStageEmitters.get(userId);
     }
@@ -44,8 +34,18 @@ public class GameStageEmitterManager implements EmitterManager<GameStageEmitter>
         return gameStageEmitters.retrieve(userId);
     }
 
+    @Override
+    public void add(long userId) {
+        gameStageEmitters.add(userId);
+    }
+
     public void sendAll(byte gameStage) {
         gameStageEmitters.sendAll(gameStage);
+    }
+
+    @Override
+    public void remove(long userId) {
+        gameStageEmitters.remove(userId);
     }
 
 }
