@@ -10,4 +10,8 @@ public record PartyGameStagePatchKafkaEvent (
         long partyId,
         byte gameStage
 ) implements GameStageEvent {
+
+    public static PartyGameStagePatchKafkaEvent from(long partyId, byte gameStage) {
+        return new PartyGameStagePatchKafkaEvent(partyId, gameStage);
+    }
 }

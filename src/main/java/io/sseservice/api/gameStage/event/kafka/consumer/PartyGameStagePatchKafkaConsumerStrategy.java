@@ -6,7 +6,9 @@ import java.time.Duration;
 import java.util.Collections;
 import java.util.Properties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 
@@ -15,7 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
  * @since : 24. 12. 3.
  */
 @Strategy(4)
-public class PartyGameStagePatchKafkaConsumerStrategy extends DefaultKafkaConsumerStrategy<PartyGameStagePatchKafkaEvent, String, PartyGameStagePatchKafkaEvent> {
+public class PartyGameStagePatchKafkaConsumerStrategy extends DefaultKafkaConsumerStrategy<PartyGameStagePatchKafkaEvent, Long, Integer> {
 
     public PartyGameStagePatchKafkaConsumerStrategy(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party-dashboard.game-stage.change}") String topic, @Value("${spring.application.name}") String groupId) {
         Properties props = new Properties();
@@ -24,7 +26,7 @@ public class PartyGameStagePatchKafkaConsumerStrategy extends DefaultKafkaConsum
         props.put(ConsumerConfig.GROUP_ID_CONFIG, groupId);
         props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, 10);
         props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, LongDeserializer.class.getName());
-        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, PartyGameStagePatchKafkaEventDeserializer.class.getName());
+        props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, IntegerDeserializer.class.getName());
         props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "earliest");
         kafkaConsumer = new KafkaConsumer<>(props);
         kafkaConsumer.subscribe(Collections.singletonList(topic));
@@ -35,8 +37,9 @@ public class PartyGameStagePatchKafkaConsumerStrategy extends DefaultKafkaConsum
         return PartyGameStagePatchKafkaEvent.class;
     }
 
+
     @Override
-    protected PartyGameStagePatchKafkaEvent convertToEvent(PartyGameStagePatchKafkaEvent value) {
-        return value;
+    protected PartyGameStagePatchKafkaEvent convertToEvent(ConsumerRecord<Long, Integer> record) {
+        return PartyGameStagePatchKafkaEvent.from(record.key(), record.value().byteValue());
     }
 }
