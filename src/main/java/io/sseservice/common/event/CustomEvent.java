@@ -5,5 +5,5 @@ package io.sseservice.common.event;
  * @since : 24. 9. 4.
  */
 public interface CustomEvent {
-
+    Class<? extends CustomEvent> getEventClass();
 }

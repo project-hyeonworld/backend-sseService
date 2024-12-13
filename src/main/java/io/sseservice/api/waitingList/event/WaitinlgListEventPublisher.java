@@ -1,6 +1,6 @@
 package io.sseservice.api.waitingList.event;
 
-import lombok.RequiredArgsConstructor;
+import io.sseservice.common.event.GenericEventPublisher;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
@@ -9,13 +9,14 @@ import org.springframework.stereotype.Component;
  * @since : 24. 12. 4.
  */
 @Component
-@RequiredArgsConstructor
-public class WaitinlgListEventPublisherImpl implements WaitingListEventPublisher{
+public class WaitinlgListEventPublisher extends GenericEventPublisher<WaitingListEvent> {
 
-    private final ApplicationEventPublisher eventPublisher;
+    protected WaitinlgListEventPublisher(ApplicationEventPublisher eventPublisher) {
+        super(eventPublisher);
+    }
 
     @Override
     public void execute(WaitingListEvent event) {
-        eventPublisher.publishEvent(event);
+        publisher.publishEvent(event);
     }
 }

@@ -1,26 +1,29 @@
 package io.sseservice.common.event.kafka.consumer;
 
 import io.sseservice.common.event.CustomEvent;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * @author : hyeonwoody@gmail.com
- * @since : 24. 12. 4.
+ * @since : 24. 12. 2.
  */
-public class GenericKafkaConsumerFactory<E extends CustomEvent> implements KafkaConsumerFactory<E> {
+public abstract class GenericKafkaConsumerFactory<E extends CustomEvent> implements
+        KafkaConsumerStrategy {
 
-    protected final Map<Class<? extends E>, GenericKafkaConsumerStrategy<? extends E, ?, ?>> strategies;
+    protected final Map<Class<? extends E>, GenericKafkaConsumer<? extends E, ?, ?>> consumers;
 
-    public GenericKafkaConsumerFactory(List<GenericKafkaConsumerStrategy<? extends E, ?, ?>> kafkaConsumerStrategies) {
-        strategies = new HashMap<>();
-        for (GenericKafkaConsumerStrategy<? extends E, ?, ?> strategy : kafkaConsumerStrategies) {
-            strategies.put(strategy.getEventClass(), strategy);
-        }
+    protected GenericKafkaConsumerFactory(List<GenericKafkaConsumer<? extends E, ?, ?>> kafkaConsumers) {
+        consumers = kafkaConsumers.stream()
+                .collect(Collectors.toMap(GenericKafkaConsumer::getEventClass, strategy -> strategy));
     }
 
-    public GenericKafkaConsumerStrategy<? extends E, ?, ?> getConsumer(Class<? extends E> eventClass) {
-        return strategies.get(eventClass);
+    public GenericKafkaConsumer getConsumer(Class<? extends E> eventClass) {
+        return consumers.get(eventClass);
     }
+
+    public abstract Class<? extends CustomEvent> getEventClass();
 }
+
+

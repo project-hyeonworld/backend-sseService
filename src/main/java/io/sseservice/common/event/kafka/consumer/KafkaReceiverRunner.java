@@ -14,9 +14,9 @@ import org.springframework.stereotype.Component;
 @Component
 public class KafkaReceiverRunner implements CommandLineRunner {
 
-    private final List<KafkaReceiver> receivers;
+    private final List<GenericKafkaReceiver> receivers;
 
-    public KafkaReceiverRunner(List<KafkaReceiver> kafkaReceivers) {
+    public KafkaReceiverRunner(List<GenericKafkaReceiver> kafkaReceivers) {
         receivers = new ArrayList<>();
         receivers.addAll(kafkaReceivers);
     }
@@ -24,7 +24,7 @@ public class KafkaReceiverRunner implements CommandLineRunner {
     @Override
     public void run(String... args) throws Exception {
         ExecutorService executorService = Executors.newFixedThreadPool(receivers.size());
-        for (KafkaReceiver receiver : receivers) {
+        for (GenericKafkaReceiver receiver : receivers) {
             executorService.submit(() -> {
                 try {
                     receiver.execute();

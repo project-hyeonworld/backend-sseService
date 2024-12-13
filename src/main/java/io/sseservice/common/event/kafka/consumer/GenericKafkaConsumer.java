@@ -12,16 +12,12 @@ import org.apache.kafka.clients.consumer.KafkaConsumer;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 12. 3.
  */
-public abstract class GenericKafkaConsumerStrategy<E extends CustomEvent, K, V> implements KafkaConsumerStrategy<E, K, V> {
+public abstract class GenericKafkaConsumer<E extends CustomEvent, K, V> implements KafkaConsumerStrategy {
 
     protected Duration timeout;
     protected KafkaConsumer<K, V> kafkaConsumer;
 
-    public KafkaConsumer<K, V> getConsumner() {
-        return kafkaConsumer;
-    }
-
-    abstract public Class<E> getEventClass();
+    public abstract Class<E> getEventClass();
 
     public List<E> receive() {
         List<E> events = new ArrayList<>();
@@ -33,7 +29,7 @@ public abstract class GenericKafkaConsumerStrategy<E extends CustomEvent, K, V> 
     }
 
     protected ConsumerRecords<K, V> consume() {
-        return getConsumner().poll(timeout);
+        return kafkaConsumer.poll(timeout);
     }
 
     protected abstract E convertToEvent(ConsumerRecord<K, V> record);
