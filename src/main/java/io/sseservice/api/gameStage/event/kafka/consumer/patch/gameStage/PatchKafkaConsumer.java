@@ -1,26 +1,30 @@
 package io.sseservice.api.gameStage.event.kafka.consumer.patch.gameStage;
 
 import io.sseservice.common.annotation.Strategy;
-import io.sseservice.common.event.kafka.consumer.GenericKafkaConsumerStrategy;
+import io.sseservice.common.event.kafka.consumer.GenericKafkaConsumer;
 import java.time.Duration;
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 import java.util.Properties;
 import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
+import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
 import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.LongDeserializer;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.stereotype.Component;
 
 /**
  * @author : hyeonwoody@gmail.com
  * @since : 24. 12. 3.
  */
-@Strategy(4)
-public class PatchKafkaConsumerStrategy extends
-        GenericKafkaConsumerStrategy<PatchKafkaEvent, Long, Integer> {
+@Component
+public class PatchKafkaConsumer extends
+        GenericKafkaConsumer<PatchKafkaEvent, Long, Integer> {
 
-    public PatchKafkaConsumerStrategy(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party-dashboard.game-stage.change}") String topic, @Value("${spring.application.name}") String groupId) {
+    public PatchKafkaConsumer(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.party-dashboard.game-stage.change}") String topic, @Value("${spring.application.name}") String groupId) {
         Properties props = new Properties();
         timeout = Duration.ofMillis(1000);
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerUrl);
@@ -38,6 +42,19 @@ public class PatchKafkaConsumerStrategy extends
         return PatchKafkaEvent.class;
     }
 
+    @Override
+    public List<PatchKafkaEvent> receive() {
+        List<PatchKafkaEvent> events = new ArrayList<>();
+        ConsumerRecords<Long, Integer> records = consume();
+        for (ConsumerRecord<Long, Integer> record : records) {
+            events.add(convertToEvent(record));
+        }
+        return events;
+    }
+
+    protected ConsumerRecords<Long, Integer> consume() {
+        return kafkaConsumer.poll(timeout);
+    }
 
     @Override
     protected PatchKafkaEvent convertToEvent(ConsumerRecord<Long, Integer> record) {

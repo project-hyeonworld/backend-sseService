@@ -1,11 +1,11 @@
 package io.sseservice.api.gameStage.event.kafka.consumer;
 
-import io.sseservice.api.gameStage.event.GameStageEventPublisher;
+import io.sseservice.api.gameStage.event.GameStageEvent;
 import io.sseservice.api.gameStage.event.kafka.consumer.patch.gameStage.PatchKafkaConsumerManager;
 import io.sseservice.api.gameStage.event.kafka.consumer.patch.gameStage.PatchKafkaEvent;
-import io.sseservice.common.event.kafka.consumer.GenericKafkaConsumerStrategy;
-import io.sseservice.common.event.kafka.consumer.KafkaReceiver;
-import lombok.RequiredArgsConstructor;
+import io.sseservice.common.event.GenericEventPublisher;
+import io.sseservice.common.event.kafka.consumer.GenericKafkaReceiver;
+import java.util.List;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,24 +13,31 @@ import org.springframework.stereotype.Component;
  * @since : 24. 12. 3.
  */
 @Component
-@RequiredArgsConstructor
-public class GameStageKafkaReceiver implements KafkaReceiver<PatchKafkaEvent> {
+public class GameStageKafkaReceiver extends GenericKafkaReceiver<GameStageEvent> {
 
-    private final PatchKafkaConsumerManager patchKafkaConsumerManager;
-    private final GameStageEventPublisher eventPublisher;
+    private final PatchKafkaConsumerManager manager;
+    private final GenericEventPublisher<GameStageEvent> eventPublisher;
 
+    protected GameStageKafkaReceiver(
+            PatchKafkaConsumerManager patchKafkaConsumerManager, GenericEventPublisher<GameStageEvent> eventPublisher) {
+        this.manager = patchKafkaConsumerManager;
+        this.eventPublisher = eventPublisher;
+    }
 
-    @Override
     public void execute() {
-        GenericKafkaConsumerStrategy consumer = patchKafkaConsumerManager.getConsumer(
-                PatchKafkaEvent.class);
         while (true) {
-            handleEvents(consumer.receive());
+            handleEvents(manager.receive());
         }
     }
 
     @Override
-    public void handleEvent(PatchKafkaEvent event) {
+    public void handleEvent(GameStageEvent event) {
         eventPublisher.execute(event);
+    }
+
+    private void handleEvents(List<PatchKafkaEvent> events) {
+        for (PatchKafkaEvent event : events) {
+            handleEvent(event);
+        }
     }
 }
