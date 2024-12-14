@@ -19,12 +19,12 @@ import org.springframework.stereotype.Component;
  * @since : 24. 12. 13.
  */
 @Component
-public class LoginEventKafkaConsumer extends GenericKafkaConsumer<LoginEvent, Long, String> {
+public class LoginKafkaConsumer extends GenericKafkaConsumer<LoginEvent, Long, String> {
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
 
-    public LoginEventKafkaConsumer(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.session.authentication.log-in}")String topic, @Value("${spring.application.name}") String groupId) {
+    public LoginKafkaConsumer(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.session.authentication.log-in}")String topic, @Value("${spring.application.name}") String groupId) {
         timeout = Duration.ofMillis(1000);
         Properties props = new Properties();
         props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, brokerUrl);
