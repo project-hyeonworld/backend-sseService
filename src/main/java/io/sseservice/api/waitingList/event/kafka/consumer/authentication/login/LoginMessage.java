@@ -1,20 +1,21 @@
 package io.sseservice.api.waitingList.event.kafka.consumer.authentication.login;
 
+import io.sseservice.common.event.kafka.consumer.message.Message;
+
 /**
  * @author : hyeonwoody@gmail.com
  * @since : 24. 12. 13.
  */
 public record LoginMessage (
-    long userId,
     long partyId,
     String userName
-) implements LoginEvent {
+) implements LoginEvent, Message {
 
     public Class<LoginEvent> getEventClass() {
         return LoginEvent.class;
     }
 
-    public static LoginMessage from(long userId, long partyId, String userName) {
-        return new LoginMessage(userId, partyId, userName);
+    public static LoginMessage from(long partyId, String userName) {
+        return new LoginMessage(partyId, userName);
     }
 }

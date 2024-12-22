@@ -23,7 +23,6 @@ public class LoginKafkaConsumer extends GenericKafkaConsumer<LoginEvent, Long, S
 
     private static final ObjectMapper objectMapper = new ObjectMapper();
 
-
     public LoginKafkaConsumer(@Value("${spring.kafka.broker.url}")String brokerUrl, @Value("${spring.kafka.topic.session.authentication.log-in}")String topic, @Value("${spring.application.name}") String groupId) {
         timeout = Duration.ofMillis(1000);
         Properties props = new Properties();
@@ -46,7 +45,7 @@ public class LoginKafkaConsumer extends GenericKafkaConsumer<LoginEvent, Long, S
     protected LoginEvent convertToEvent(ConsumerRecord<Long, String> record) {
         try {
             LoginEventRecord loginEventRecord = objectMapper.readValue(record.value(), LoginEventRecord.class);
-            return LoginMessage.from(record.key(), loginEventRecord.partyId(), loginEventRecord.userName());
+            return LoginMessage.from(loginEventRecord.partyId(), loginEventRecord.userName());
         } catch (JsonProcessingException e) {
             throw new RuntimeException(e);
         }
