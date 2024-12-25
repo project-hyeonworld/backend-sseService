@@ -6,13 +6,13 @@ import io.sseservice.common.event.kafka.consumer.message.Message;
  * @author : hyeonwoody@gmail.com
  * @since : 24. 12. 18.
  */
-public class EnterGameEventImpl implements EnterGameEvent, Message {
+public class EnterGameEventImpl implements EnterGameEvent {
 
     private final long userId;
     private final long partyId;
     private final String userName;
 
-    EnterGameEventImpl(long userId, long partyId, String userName) {
+    public EnterGameEventImpl(long userId, long partyId, String userName) {
         this.userId = userId;
         this.partyId = partyId;
         this.userName = userName;
